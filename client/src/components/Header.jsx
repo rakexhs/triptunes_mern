@@ -5,24 +5,24 @@ import { useSelector } from 'react-redux';
 export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   return (
-    <header className="bg-slate-200 shadow border-slate-400">
+    <header className="bg-white shadow-md border-slate-400">
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to='/'>
         <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-          <span className="text-slate-500">Project</span>
-          <span className="text-slate-700 uppercase">One</span>
+          <span className="text-red-300 text-3xl">Trip</span>
+          <span className="text-red-500 uppercase text-3xl">Tunes</span>
         </h1>
         </Link>
-        <form className='bg-slate-50 p-3 rounded-lg flex items-center'>
+        <form className='bg-white p-3 rounded-lg flex items-center shadow-md border'>
           <input type="text" placeholder="Search..." className='bg-transparent focus:outline-none w-24 sm:w-64'/>
           <FaSearch className='text-slate-600'/>
         </form>
         <ul className='flex gap-4'>
             <Link to='/'>
-            <li className='hidden sm:inline text-slate-700 hover:underline'>Home</li>
+            <li className='hidden sm:inline text-blb hover:underline hover:text-red-500'>Home</li>
             </Link>
             <Link to='/about'>
-            <li className='hidden sm:inline text-slate-700 hover:underline'>About</li>
+            <li className='hidden sm:inline text-blb hover:underline hover:text-red-500'>About</li>
             </Link>
             <Link to='/profile'>
             {currentUser ? (
@@ -32,7 +32,7 @@ export default function Header() {
                 alt='profile'
               />
             ) : (
-              <li className=' text-slate-700 hover:underline'> Sign in</li>
+              <li className=' text-blb hover:underline hover:text-red-500'> Sign in</li>
             )}
           </Link>
         </ul>

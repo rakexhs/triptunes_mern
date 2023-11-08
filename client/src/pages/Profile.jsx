@@ -21,8 +21,8 @@ export default function Profile() {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
-  const [showListingsError, setShowListingsError] = useState(false);
-  const [userListings, setUserListings] = useState([]);
+  const [showPropertysError, setShowPropertysError] = useState(false);
+  const [userPropertys, setUserPropertys] = useState([]);
   const dispatch = useDispatch();
 
   // firebase storage
@@ -141,25 +141,25 @@ export default function Profile() {
     }
   };
 
-  const handleShowListings = async () => {
+  const handleShowPropertys = async () => {
     try {
-      setShowListingsError(false);
-      const res = await fetch(`/api/user/listings/${currentUser._id}`);
+      setShowPropertysError(false);
+      const res = await fetch(`/api/user/propertys/${currentUser._id}`);
       const data = await res.json();
       if (data.success === false) {
-        setShowListingsError(true);
+        setShowPropertysError(true);
         return;
       }
 
-      setUserListings(data);
+      setUserPropertys(data);
     } catch (error) {
-      setShowListingsError(true);
+      setShowPropertysError(true);
     }
   };
 
-  const handleListingDelete = async (listingId) => {
+  const handlePropertyDelete = async (propertyId) => {
     try {
-      const res = await fetch(`/api/listing/delete/${listingId}`, {
+      const res = await fetch(`/api/property/delete/${propertyId}`, {
         method: 'DELETE',
       });
       const data = await res.json();
@@ -168,8 +168,8 @@ export default function Profile() {
         return;
       }
 
-      setUserListings((prev) =>
-        prev.filter((listing) => listing._id !== listingId)
+      setUserPropertys((prev) =>
+        prev.filter((property) => property._id !== propertyId)
       );
     } catch (error) {
       console.log(error.message);
@@ -235,10 +235,10 @@ export default function Profile() {
           {loading ? 'Loading...' : 'Update'}
         </button>
         <Link
-          className='bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95'
-          to={'/create-listing'}
+          className='bg-green-700 text-white p-3 rounded-lg uppercase text-center hover:opacity-95 '
+          to={'/create-property'}
         >
-          Create Listing
+          List Property
         </Link>
       </form>
       <div className='flex justify-between mt-5'>
@@ -256,45 +256,45 @@ export default function Profile() {
       <p className='text-green-700 mt-5 text-center'>
         {updateSuccess ? 'User is updated!' : ''}
       </p>
-      <button onClick={handleShowListings} className='text-green-700 w-full'>
-        Show Listings
+      <button onClick={handleShowPropertys} className='text-green-700 w-full '>
+        Show Propertys
       </button>
       <p className='text-red-700 mt-5'>
-        {showListingsError ? 'Error showing listings' : ''}
+        {showPropertysError ? 'Error showing propertys' : ''}
       </p>
 
-      {userListings && userListings.length > 0 && (
+      {userPropertys && userPropertys.length > 0 && (
         <div className='flex flex-col gap-4'>
           <h1 className='text-center mt-7 text-2xl font-semibold'>
-            Your Listings
+            Your Propertys
           </h1>
-          {userListings.map((listing) => (
+          {userPropertys.map((property) => (
             <div
-              key={listing._id}
+              key={property._id}
               className='border rounded-lg p-3 flex justify-between items-center gap-4'
             >
-              <Link to={`/listing/${listing._id}`}>
+              <Link to={`/property/${property._id}`}>
                 <img
-                  src={listing.imageUrls[0]}
-                  alt='listing cover'
+                  src={property.imageUrls[0]}
+                  alt='property cover'
                   className='h-16 w-16 object-contain'
                 />
               </Link>
               <Link
                 className='text-slate-700 font-semibold  hover:underline truncate flex-1'
-                to={`/listing/${listing._id}`}
+                to={`/property/${property._id}`}
               >
-                <p>{listing.name}</p>
+                <p>{property.name}</p>
               </Link>
 
               <div className='flex flex-col item-center'>
                 <button
-                  onClick={() => handleListingDelete(listing._id)}
+                  onClick={() => handlePropertyDelete(property._id)}
                   className='text-red-700 uppercase'
                 >
                   Delete
                 </button>
-                <Link to={`/update-listing/${listing._id}`}>
+                <Link to={`/update-property/${property._id}`}>
                   <button className='text-green-700 uppercase'>Edit</button>
                 </Link>
               </div>
