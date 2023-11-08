@@ -10,45 +10,45 @@ export const createProperty = async (req, res, next) => {
   }
 };
 
-// export const deleteProperty = async (req, res, next) => {
-//   const property = await Property.findById(req.params.id);
+export const deleteProperty = async (req, res, next) => {
+  const property = await Property.findById(req.params.id);
 
-//   if (!property) {
-//     return next(errorHandler(404, 'Property not found!'));
-//   }
+  if (!property) {
+    return next(errorHandler(404, 'Property not found!'));
+  }
 
-//   if (req.user.id !== property.userRef) {
-//     return next(errorHandler(401, 'You can onzly delete your own properties!'));
-//   }
+  if (req.user.id !== property.userRef) {
+    return next(errorHandler(401, 'You can onzly delete your own properties!'));
+  }
 
-//   try {
-//     await Property.findByIdAndDelete(req.params.id);
-//     res.status(200).json('Property has been deleted!');
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+  try {
+    await Property.findByIdAndDelete(req.params.id);
+    res.status(200).json('Property has been deleted!');
+  } catch (error) {
+    next(error);
+  }
+};
 
-// export const updateProperty = async (req, res, next) => {
-//   const property = await Property.findById(req.params.id);
-//   if (!property) {
-//     return next(errorHandler(404, 'Property not found!'));
-//   }
-//   if (req.user.id !== property.userRef) {
-//     return next(errorHandler(401, 'You can only update your own properties!'));
-//   }
+export const updateProperty = async (req, res, next) => {
+  const property = await Property.findById(req.params.id);
+  if (!property) {
+    return next(errorHandler(404, 'Property not found!'));
+  }
+  if (req.user.id !== property.userRef) {
+    return next(errorHandler(401, 'You can only update your own properties!'));
+  }
 
-//   try {
-//     const updatedProperty = await Property.findByIdAndUpdate(
-//       req.params.id,
-//       req.body,
-//       { new: true }
-//     );
-//     res.status(200).json(updatedProperty);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+  try {
+    const updatedProperty = await Property.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+    res.status(200).json(updatedProperty);
+  } catch (error) {
+    next(error);
+  }
+};
 
 // export const getProperty = async (req, res, next) => {
 //   try {

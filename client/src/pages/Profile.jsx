@@ -21,8 +21,8 @@ export default function Profile() {
   const [fileUploadError, setFileUploadError] = useState(false);
   const [formData, setFormData] = useState({});
   const [updateSuccess, setUpdateSuccess] = useState(false);
-  const [showPropertysError, setShowPropertysError] = useState(false);
-  const [userPropertys, setUserPropertys] = useState([]);
+  const [showPropertiesError, setShowPropertiesError] = useState(false);
+  const [userProperties, setUserProperties] = useState([]);
   const dispatch = useDispatch();
 
   // firebase storage
@@ -141,19 +141,19 @@ export default function Profile() {
     }
   };
 
-  const handleShowPropertys = async () => {
+  const handleShowProperties = async () => {
     try {
-      setShowPropertysError(false);
-      const res = await fetch(`/api/user/propertys/${currentUser._id}`);
+      setShowPropertiesError(false);
+      const res = await fetch(`/api/user/properties/${currentUser._id}`);
       const data = await res.json();
       if (data.success === false) {
-        setShowPropertysError(true);
+        setShowPropertiesError(true);
         return;
       }
 
-      setUserPropertys(data);
+      setUserProperties(data);
     } catch (error) {
-      setShowPropertysError(true);
+      setShowPropertiesError(true);
     }
   };
 
@@ -168,7 +168,7 @@ export default function Profile() {
         return;
       }
 
-      setUserPropertys((prev) =>
+      setUserProperties((prev) =>
         prev.filter((property) => property._id !== propertyId)
       );
     } catch (error) {
@@ -256,19 +256,19 @@ export default function Profile() {
       <p className='text-green-700 mt-5 text-center'>
         {updateSuccess ? 'User is updated!' : ''}
       </p>
-      <button onClick={handleShowPropertys} className='text-green-700 w-full '>
-        Show Propertys
+      <button onClick={handleShowProperties} className='text-green-700 w-full '>
+        Show Properties
       </button>
       <p className='text-red-700 mt-5'>
-        {showPropertysError ? 'Error showing propertys' : ''}
+        {showPropertiesError ? 'Error showing properties' : ''}
       </p>
 
-      {userPropertys && userPropertys.length > 0 && (
+      {userProperties && userProperties.length > 0 && (
         <div className='flex flex-col gap-4'>
           <h1 className='text-center mt-7 text-2xl font-semibold'>
-            Your Propertys
+            Your Properties
           </h1>
-          {userPropertys.map((property) => (
+          {userProperties.map((property) => (
             <div
               key={property._id}
               className='border rounded-lg p-3 flex justify-between items-center gap-4'

@@ -7,6 +7,7 @@ import Profile from "./pages/Profile";
 import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
 import CreateProperty from "./pages/CreateProperty";
+import UpdateProperty from "./pages/UpdateProperty";
 
 export default function App() {
   return (
@@ -20,6 +21,7 @@ export default function App() {
         <Route element={<PrivateRoute/>} >
         <Route path="/profile" element={<Profile />} />
         <Route path='/create-property' element={<CreateProperty />} />
+        <Route path='/update-property/:propertyId' element={<UpdateProperty />} />
         </Route>
       </Routes>
     </BrowserRouter>
