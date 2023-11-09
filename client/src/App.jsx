@@ -8,6 +8,8 @@ import Header from "./components/Header";
 import PrivateRoute from "./components/PrivateRoute";
 import CreateProperty from "./pages/CreateProperty";
 import UpdateProperty from "./pages/UpdateProperty";
+import Property from "./pages/Property";
+import Search from "./pages/Search";
 
 export default function App() {
   return (
@@ -18,6 +20,8 @@ export default function App() {
         <Route path="/sign-in" element={<SignIn />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/about" element={<About />} />
+        <Route path='/search' element={<Search />} />
+        <Route path='/property/:propertyId' element={<Property/>} />
         <Route element={<PrivateRoute/>} >
         <Route path="/profile" element={<Profile />} />
         <Route path='/create-property' element={<CreateProperty />} />
