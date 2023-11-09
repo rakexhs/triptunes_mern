@@ -18,13 +18,14 @@ export default function CreateProperty() {
     name: '',
     description: '',
     address: '',
-    contact:'',
+    type: 'rent',
     bedrooms: 1,
     bathrooms: 1,
     regularPrice: 1000,
     discountPrice: 0,
     offer: false,
     parking: false,
+    contact:'',
   });
   const [imageUploadError, setImageUploadError] = useState(false);
   const [uploading, setUploading] = useState(false);
@@ -92,6 +93,13 @@ export default function CreateProperty() {
   };
 
   const handleChange = (e) => {
+    if (e.target.id === 'sale' || e.target.id === 'rent') {
+        setFormData({
+          ...formData,
+          type: e.target.id,
+        });
+      }
+
     if (
       e.target.id === 'parking' ||
       e.target.id === 'offer'
@@ -190,6 +198,26 @@ export default function CreateProperty() {
             value={formData.address}
           />
           <div className='flex gap-6 flex-wrap'>
+          <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='sale'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.type === 'sale'}
+              />
+              <span>Sell</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='rent'
+                className='w-5'
+                onChange={handleChange}
+                checked={formData.type === 'rent'}
+              />
+              <span>Rent</span>
+            </div>
             <div className='flex gap-2'>
               <input
                 type='checkbox'
@@ -243,7 +271,7 @@ export default function CreateProperty() {
                 type='number'
                 id='regularPrice'
                 min='50'
-                max='10000000'
+                max='1000000000'
                 required
                 className='p-3 border border-gray-300 rounded-lg'
                 onChange={handleChange}
@@ -251,8 +279,8 @@ export default function CreateProperty() {
               />
               <div className='flex flex-col items-center'>
                 <p>Regular price</p>
-                {formData.bedrooms >= 1 && (
-                  <span className='text-xs'>(Rs / month)</span>
+                {formData.type === 'rent' && (
+                  <span className='text-xs'>(Rs / Day)</span>
                 )}
               </div>
             </div>
@@ -262,7 +290,7 @@ export default function CreateProperty() {
                   type='number'
                   id='discountPrice'
                   min='0'
-                  max='10000000'
+                  max='1000000000'
                   required
                   className='p-3 border border-gray-300 rounded-lg'
                   onChange={handleChange}
@@ -271,8 +299,8 @@ export default function CreateProperty() {
                 <div className='flex flex-col items-center'>
                   <p>Discounted price</p>
 
-                  {formData.bedrooms >= 1 && (
-                    <span className='text-xs'>(Rs / month)</span>
+                  {formData.type === 'rent' && (
+                    <span className='text-xs'>(Rs / Day)</span>
                   )}
                 </div>
               </div>

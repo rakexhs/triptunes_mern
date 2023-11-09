@@ -77,6 +77,12 @@ export const getProperties = async (req, res, next) => {
     if (parking === undefined || parking === 'false') {
       parking = { $in: [false, true] };
     }
+    let type = req.query.type;
+
+    if (type === undefined || type === 'all') {
+      type = { $in: ['sale', 'rent'] };
+    }
+
     const searchTerm = req.query.searchTerm || '';
 
     const sort = req.query.sort || 'createdAt';
@@ -87,6 +93,7 @@ export const getProperties = async (req, res, next) => {
       name: { $regex: searchTerm, $options: 'i' },
       offer,
       parking,
+      type,
     })
       .sort({ [sort]: order })
       .limit(limit)

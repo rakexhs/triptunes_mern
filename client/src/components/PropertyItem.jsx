@@ -31,7 +31,7 @@ export default function PropertyItem({ property }) {
             {property.offer
               ? property.discountPrice.toLocaleString('en-US')
               : property.regularPrice.toLocaleString('en-US')}
-              /{' '}month
+              {property.type === 'rent' && ' / Day'}
           </p>
           <div className='text-slate-700 flex gap-4'>
             <div className='font-bold text-xs'>

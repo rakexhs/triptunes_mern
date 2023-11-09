@@ -6,6 +6,7 @@ export default function Search() {
   const navigate = useNavigate();
   const [sidebardata, setSidebardata] = useState({
     searchTerm: '',
+    type: 'all',
     parking: false,
     offer: false,
     sort: 'created_at',
@@ -13,12 +14,13 @@ export default function Search() {
   });
 
   const [loading, setLoading] = useState(false);
-  const [propertys, setPropertys] = useState([]);
+  const [propertys, setProperties] = useState([]);
   const [showMore, setShowMore] = useState(false);
 
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get('searchTerm');
+    const typeFromUrl = urlParams.get('type');
     const parkingFromUrl = urlParams.get('parking');
     const offerFromUrl = urlParams.get('offer');
     const sortFromUrl = urlParams.get('sort');
@@ -26,6 +28,7 @@ export default function Search() {
 
     if (
       searchTermFromUrl ||
+      typeFromUrl ||
       parkingFromUrl ||
       offerFromUrl ||
       sortFromUrl ||
@@ -33,6 +36,7 @@ export default function Search() {
     ) {
       setSidebardata({
         searchTerm: searchTermFromUrl || '',
+        type: typeFromUrl || 'all',
         parking: parkingFromUrl === 'true' ? true : false,
         offer: offerFromUrl === 'true' ? true : false,
         sort: sortFromUrl || 'created_at',
@@ -40,7 +44,7 @@ export default function Search() {
       });
     }
 
-    const fetchPropertys = async () => {
+    const fetchProperties = async () => {
       setLoading(true);
       setShowMore(false);
       const searchQuery = urlParams.toString();
@@ -51,14 +55,22 @@ export default function Search() {
       } else {
         setShowMore(false);
       }
-      setPropertys(data);
+      setProperties(data);
       setLoading(false);
     };
 
-    fetchPropertys();
+    fetchProperties();
   }, [location.search]);
 
   const handleChange = (e) => {
+    if (
+        e.target.id === 'all' ||
+        e.target.id === 'rent' ||
+        e.target.id === 'sale'
+      ) {
+        setSidebardata({ ...sidebardata, type: e.target.id });
+      }
+  
 
     if (e.target.id === 'searchTerm') {
       setSidebardata({ ...sidebardata, searchTerm: e.target.value });
@@ -88,6 +100,7 @@ export default function Search() {
     e.preventDefault();
     const urlParams = new URLSearchParams();
     urlParams.set('searchTerm', sidebardata.searchTerm);
+    urlParams.set('type', sidebardata.type);
     urlParams.set('parking', sidebardata.parking);
     urlParams.set('offer', sidebardata.offer);
     urlParams.set('sort', sidebardata.sort);
@@ -97,8 +110,8 @@ export default function Search() {
   };
 
   const onShowMoreClick = async () => {
-    const numberOfPropertys = propertys.length;
-    const startIndex = numberOfPropertys;
+    const numberOfProperties = propertys.length;
+    const startIndex = numberOfProperties;
     const urlParams = new URLSearchParams(location.search);
     urlParams.set('startIndex', startIndex);
     const searchQuery = urlParams.toString();
@@ -107,7 +120,7 @@ export default function Search() {
     if (data.length < 9) {
       setShowMore(false);
     }
-    setPropertys([...propertys, ...data]);
+    setProperties([...propertys, ...data]);
   };
   return (
     <div className='flex flex-col md:flex-row'>
@@ -128,6 +141,36 @@ export default function Search() {
           </div>
           <div className='flex gap-2 flex-wrap items-center'>
             <label className='font-semibold'>Type:</label>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='all'
+                className='w-5'
+                onChange={handleChange}
+                checked={sidebardata.type === 'all'}
+              />
+              <span>Rent & Sale</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='rent'
+                className='w-5'
+                onChange={handleChange}
+                checked={sidebardata.type === 'rent'}
+              />
+              <span>Rent</span>
+            </div>
+            <div className='flex gap-2'>
+              <input
+                type='checkbox'
+                id='sale'
+                className='w-5'
+                onChange={handleChange}
+                checked={sidebardata.type === 'sale'}
+              />
+              <span>Sale</span>
+            </div>
             <div className='flex gap-2'>
               <input
                 type='checkbox'

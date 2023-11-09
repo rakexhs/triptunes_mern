@@ -27,8 +27,8 @@ export default function Header() {
       <div className="flex justify-between items-center max-w-6xl mx-auto p-3">
         <Link to='/'>
         <h1 className="font-bold text-sm sm:text-xl flex flex-wrap">
-          <span className="text-red-300 text-3xl">Trip</span>
-          <span className="text-red-500 uppercase text-3xl">Tunes</span>
+          <span className="text-red-400 text-4xl">Trip</span>
+          <span className="text-red-600 uppercase text-4xl">Tunes</span>
         </h1>
         </Link>
         <form onSubmit={handleSubmit}
@@ -48,7 +48,7 @@ export default function Header() {
             <Link to='/about'>
             <li className='hidden sm:inline text-blb hover:underline hover:text-red-500'>About</li>
             </Link>
-            <Link to='/profile'>
+            <Link to='/profile' className='border-black border rounded-2xl'>
             {currentUser ? (
               <img
                 className='rounded-full h-7 w-7 object-cover'

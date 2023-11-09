@@ -42,6 +42,10 @@ const propertySchema = new mongoose.Schema(
       type: Boolean,
       required: true,
     },
+    type: {
+        type: String,
+        required: true,
+      },
     imageUrls: {
       type: Array,
       required: true,

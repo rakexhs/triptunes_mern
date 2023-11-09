@@ -8,7 +8,6 @@ import 'swiper/css/bundle';
 import {
   FaBath,
   FaBed,
-  FaChair,
   FaMapMarkedAlt,
   FaParking,
   FaShare,
@@ -91,21 +90,24 @@ export default function Property() {
               {property.offer
                 ? property.discountPrice.toLocaleString('en-US')
                 : property.regularPrice.toLocaleString('en-US')}
-               {' '}/{' '}month
+               {property.type === 'rent' && ' / Day'}
             </p>
             <p className='flex items-center mt-6 gap-2 text-slate-600  text-sm'>
               <FaMapMarkedAlt className='text-green-700' />
               {property.address}
             </p>
             <div className='flex gap-4'>
-              <p className='bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
-                Contact:{' '}{property.contact}
+            <p className='bg-red-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
+                {property.type === 'rent' ? 'For Rent' : 'For Sale'}
               </p>
               {property.offer && (
                 <p className='bg-green-900 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
                   Rs{' '}{+property.regularPrice - +property.discountPrice} OFF
-                </p>
-              )}
+                </p>)}
+                 <p className='bg-cyan-500 w-full max-w-[200px] text-white text-center p-1 rounded-md'>
+                 Contact:{' '}{property.contact}
+               </p>
+              
             </div>
             <p className='text-slate-800'>
               <span className='font-semibold text-black'>Description - </span>
