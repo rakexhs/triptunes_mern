@@ -63,44 +63,52 @@ export const getProperty = async (req, res, next) => {
 };
  
 export const getProperties = async (req, res, next) => {
-  try {
-    const limit = parseInt(req.query.limit) || 9;
-    const startIndex = parseInt(req.query.startIndex) || 0;
-    let offer = req.query.offer;
-
-    if (offer === undefined || offer === 'false') {
-      offer = { $in: [false, true] };
+    try {
+      const limit = parseInt(req.query.limit) || 9;
+      const startIndex = parseInt(req.query.startIndex) || 0;
+      let offer = req.query.offer;
+  
+      if (offer === undefined || offer === 'false') {
+        offer = { $in: [false, true] };
+      }
+  
+      let parking = req.query.parking;
+  
+      if (parking === undefined || parking === 'false') {
+        parking = { $in: [false, true] };
+      }
+  
+      let type = req.query.type;
+  
+      if (type === undefined || type === 'all') {
+        type = { $in: ['sale', 'rent'] };
+      }
+  
+      const searchTerm = req.query.searchTerm || '';
+      const city = req.query.city || ''; // Add this line to get the city parameter
+      // Calculate beds based on adults and children
+      const adults = parseInt(req.query.adults) || 0;
+      const children = parseInt(req.query.children) || 0;
+      const beds = Math.ceil((adults + children) / 2);
+  
+      const sort = req.query.sort || 'createdAt';
+      const order = req.query.order || 'desc';
+  
+      const properties = await Property.find({
+        name: { $regex: searchTerm, $options: 'i' },
+        city: { $regex: city, $options: 'i' }, // Add this line to filter by city
+        bedrooms: { $gte: beds }, // Add this line to filter by bedrooms
+        offer,
+        parking,
+        type,
+      })
+        .sort({ [sort]: order })
+        .limit(limit)
+        .skip(startIndex);
+  
+      return res.status(200).json(properties);
+    } catch (error) {
+      next(error);
     }
-
-    let parking = req.query.parking;
-
-    if (parking === undefined || parking === 'false') {
-      parking = { $in: [false, true] };
-    }
-    let type = req.query.type;
-
-    if (type === undefined || type === 'all') {
-      type = { $in: ['sale', 'rent'] };
-    }
-
-    const searchTerm = req.query.searchTerm || '';
-
-    const sort = req.query.sort || 'createdAt';
-
-    const order = req.query.order || 'desc';
-
-    const properties = await Property.find({
-      name: { $regex: searchTerm, $options: 'i' },
-      offer,
-      parking,
-      type,
-    })
-      .sort({ [sort]: order })
-      .limit(limit)
-      .skip(startIndex);
-
-    return res.status(200).json(properties);
-  } catch (error) {
-    next(error);
-  }
-};
+  };
+  

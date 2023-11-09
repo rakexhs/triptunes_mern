@@ -46,6 +46,10 @@ const propertySchema = new mongoose.Schema(
         type: String,
         required: true,
       },
+    city: {
+        type: String,
+        required: true,
+      },
     imageUrls: {
       type: Array,
       required: true,

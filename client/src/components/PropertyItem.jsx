@@ -3,7 +3,7 @@ import { MdLocationOn } from 'react-icons/md';
 
 export default function PropertyItem({ property }) {
   return (
-    <div className='bg-white  shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[330px]'>
+    <div className='bg-white  shadow-md hover:shadow-lg transition-shadow overflow-hidden rounded-lg w-full sm:w-[300px]'>
       <Link to={`/property/${property._id}`}>
         <img
           src={

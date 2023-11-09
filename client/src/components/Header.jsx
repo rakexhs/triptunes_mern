@@ -7,12 +7,17 @@ export default function Header() {
   const { currentUser } = useSelector((state) => state.user);
   const [searchTerm, setSearchTerm] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    setSearchTerm(''); // Reset the search term to an empty string
+  }, [location.pathname]);
   const handleSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams(window.location.search);
     urlParams.set('searchTerm', searchTerm);
     const searchQuery = urlParams.toString();
     navigate(`/search?${searchQuery}`);
+    
   };
 
   useEffect(() => {
@@ -41,17 +46,17 @@ export default function Header() {
           <FaSearch className='text-slate-600'/>
           </button>
         </form>
-        <ul className='flex gap-4'>
+        <ul className='flex  gap-2 sm:gap-4'>
             <Link to='/'>
             <li className='hidden sm:inline text-blb hover:underline hover:text-red-500'>Home</li>
             </Link>
             <Link to='/about'>
             <li className='hidden sm:inline text-blb hover:underline hover:text-red-500'>About</li>
             </Link>
-            <Link to='/profile' className='border-black border rounded-2xl'>
+            <Link to='/profile'>
             {currentUser ? (
               <img
-                className='rounded-full h-7 w-7 object-cover'
+                className='border-black border rounded-full h-7 w-7 object-cover'
                 src={currentUser.avatar}
                 alt='profile'
               />

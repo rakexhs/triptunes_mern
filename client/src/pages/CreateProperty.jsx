@@ -18,6 +18,7 @@ export default function CreateProperty() {
     name: '',
     description: '',
     address: '',
+    city:'',
     type: 'rent',
     bedrooms: 1,
     bathrooms: 1,
@@ -196,6 +197,15 @@ export default function CreateProperty() {
             required
             onChange={handleChange}
             value={formData.address}
+          />
+          <input
+            type='text'
+            placeholder='City'
+            className='border p-3 rounded-lg'
+            id='city'
+            required
+            onChange={handleChange}
+            value={formData.city}
           />
           <div className='flex gap-6 flex-wrap'>
           <div className='flex gap-2'>

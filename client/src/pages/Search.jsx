@@ -6,6 +6,10 @@ export default function Search() {
   const navigate = useNavigate();
   const [sidebardata, setSidebardata] = useState({
     searchTerm: '',
+    city:'',
+    adults: 1,
+    children: 0,
+    beds: 1,
     type: 'all',
     parking: false,
     offer: false,
@@ -18,9 +22,19 @@ export default function Search() {
   const [showMore, setShowMore] = useState(false);
 
   useEffect(() => {
+    // Calculate beds based on adults and children
+    const totalBeds = Math.ceil((parseInt(sidebardata.adults, 10) + parseInt(sidebardata.children, 10)) / 2);
+    setSidebardata({ ...sidebardata, beds: totalBeds });
+  }, [sidebardata.adults, sidebardata.children]);
+
+  useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     const searchTermFromUrl = urlParams.get('searchTerm');
     const typeFromUrl = urlParams.get('type');
+    const cityFromUrl = urlParams.get('city');
+    const adultsFromUrl = urlParams.get('adults');
+    const childrenFromUrl = urlParams.get('children');
+    const bedsFromUrl = urlParams.get('beds');
     const parkingFromUrl = urlParams.get('parking');
     const offerFromUrl = urlParams.get('offer');
     const sortFromUrl = urlParams.get('sort');
@@ -29,6 +43,10 @@ export default function Search() {
     if (
       searchTermFromUrl ||
       typeFromUrl ||
+      cityFromUrl ||
+      adultsFromUrl ||
+      childrenFromUrl ||
+      bedsFromUrl ||
       parkingFromUrl ||
       offerFromUrl ||
       sortFromUrl ||
@@ -37,6 +55,10 @@ export default function Search() {
       setSidebardata({
         searchTerm: searchTermFromUrl || '',
         type: typeFromUrl || 'all',
+        city: cityFromUrl || '',
+        adults: adultsFromUrl || 1,
+        children: childrenFromUrl || 0,
+        beds: bedsFromUrl || 1,
         parking: parkingFromUrl === 'true' ? true : false,
         offer: offerFromUrl === 'true' ? true : false,
         sort: sortFromUrl || 'created_at',
@@ -63,44 +85,55 @@ export default function Search() {
   }, [location.search]);
 
   const handleChange = (e) => {
-    if (
-        e.target.id === 'all' ||
-        e.target.id === 'rent' ||
-        e.target.id === 'sale'
-      ) {
-        setSidebardata({ ...sidebardata, type: e.target.id });
-      }
+    if (e.target.id === 'all' || e.target.id === 'rent' || e.target.id === 'sale') {
+      setSidebardata({ ...sidebardata, type: e.target.id });
+    }
   
-
     if (e.target.id === 'searchTerm') {
       setSidebardata({ ...sidebardata, searchTerm: e.target.value });
     }
-
-    if (
-      e.target.id === 'parking' ||
-      e.target.id === 'offer'
-    ) {
+    if (e.target.id === 'city') {
+        setSidebardata({ ...sidebardata, city: e.target.value });
+      }
+    if (e.target.id === 'parking' || e.target.id === 'offer') {
       setSidebardata({
         ...sidebardata,
-        [e.target.id]:
-          e.target.checked || e.target.checked === 'true' ? true : false,
+        [e.target.id]: e.target.checked || e.target.checked === 'true' ? true : false,
       });
     }
-
+  
     if (e.target.id === 'sort_order') {
       const sort = e.target.value.split('_')[0] || 'created_at';
-
       const order = e.target.value.split('_')[1] || 'desc';
-
       setSidebardata({ ...sidebardata, sort, order });
     }
+  
+    if (e.target.id === 'adults') {
+      setSidebardata({ ...sidebardata, adults: parseInt(e.target.value, 10) || 0 });
+    }
+    
+    if (e.target.id === 'children') {
+      setSidebardata({ ...sidebardata, children: parseInt(e.target.value, 10) || 0 });
+    }
+  
+    if (e.target.id === 'beds') {
+      // Calculate beds based on adults and children
+      const totalBeds = Math.ceil((parseInt(sidebardata.adults, 10) + parseInt(sidebardata.children, 10)) / 2);
+      setSidebardata({ ...sidebardata, beds: totalBeds });
+    }
   };
+  
+   console.log(sidebardata);
 
   const handleSubmit = (e) => {
     e.preventDefault();
     const urlParams = new URLSearchParams();
     urlParams.set('searchTerm', sidebardata.searchTerm);
     urlParams.set('type', sidebardata.type);
+    urlParams.set('city', sidebardata.city);
+    urlParams.set('adults', sidebardata.adults);
+    urlParams.set('children', sidebardata.children); // Fix the typo here
+    urlParams.set('beds', sidebardata.beds);
     urlParams.set('parking', sidebardata.parking);
     urlParams.set('offer', sidebardata.offer);
     urlParams.set('sort', sidebardata.sort);
@@ -139,6 +172,45 @@ export default function Search() {
               onChange={handleChange}
             />
           </div>
+          <div className='flex items-center gap-2'>
+            <label className='whitespace-nowrap font-semibold'>
+              City :
+            </label>
+            <input
+              type='text'
+              id='city'
+              placeholder='City'
+              className='border border-slate-300  rounded-lg p-3 w-full'
+              value={sidebardata.city}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="flex items-center gap-2">          
+            <label htmlFor="adults" className="text-black whitespace-nowrap font-semibold">
+              Adults:
+            </label>
+          <input
+            type="number"
+            id="adults"
+            placeholder="Adults"
+            value={sidebardata.adults}
+            onChange={handleChange}
+            className="border border-slate-300  rounded-lg p-3 w-full"
+          />
+        </div>
+        <div className="flex gap-2 items-center"> 
+            <label htmlFor="adults" className="text-black whitespace-nowrap font-semibold">
+              Children:
+            </label>
+          <input
+            type="number"
+            id="children"
+            placeholder="Adults"
+            value={sidebardata.children}
+            onChange={handleChange}
+            className="border border-slate-300  rounded-lg p-3 w-full"
+          />
+        </div>
           <div className='flex gap-2 flex-wrap items-center'>
             <label className='font-semibold'>Type:</label>
             <div className='flex gap-2'>

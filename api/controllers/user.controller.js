@@ -58,7 +58,7 @@ export const updateUser = async (req, res, next) => {
         res.status(200).json(Properties);
       } catch (error) {
         next(error);
-      }
+      }  
     } else {
       return next(errorHandler(401, 'You can only view your own Properties!'));
     }
