@@ -97,15 +97,15 @@ export default function Property() {
               {property.address}
             </p>
             <div className="flex gap-4 justify-between">
-              <p className="bg-red-900 w-full max-w-[300px] text-white text-center p-1 rounded-md">
+              <p className="bg-red-900 w-full max-w-[300px] text-white text-center justify-center p-1 rounded-md flex items-center ">
                 {property.type === "rent" ? "For Rent" : "For Sale"}
               </p>
               {property.offer && (
-                <p className="bg-green-900 w-full max-w-[300px] text-white text-center p-1 rounded-md">
+                <p className="bg-green-900 w-full max-w-[300px] text-white text-center p-1 rounded-md flex items-center justify-center">
                   Rs {+property.regularPrice - +property.discountPrice} Off
                 </p>
               )}
-              <p className="bg-cyan-500 w-full max-w-[300px] text-white text-center p-1 rounded-md">
+              <p className="bg-cyan-500 w-full max-w-[300px] text-white text-center p-1 rounded-md flex items-center justify-center">
                 Contact: {property.contact}
               </p>
             </div>

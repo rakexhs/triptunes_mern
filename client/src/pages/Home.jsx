@@ -143,9 +143,10 @@ export default function Home() {
           Let the adventure begin!
         </Link>
       </div>
-      <div className=" w-full sm:w-auto p-4 pb-9 m-2 mb-20 flex flex-col sm:flex-row gap-4 items-center justify-between bg-gradient-to-r from-orange-300 to-orange-500 shadow-md">
+      <div className="w-full flex justify-center">
+      <div className=" w-64 sm:w-full p-4 pb-4  mb-20 flex flex-col sm:flex-row gap-4 items-center justify-center bg-gradient-to-r from-orange-200 to-orange-400  shadow-md">
         <div className="flex flex-col">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center justify-center gap-1">
             <MdLocationOn className="text-white" />
             <p htmlFor="city" className="text-white">
               City:
@@ -173,7 +174,7 @@ export default function Home() {
             id="checkInDate"
             value={searchData.checkInDate}
             onChange={handleChange}
-            className="p-3 mt-1 bg-white rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            className="p-3 mt-1 bg-white rounded-lg focus:outline-none focus:ring focus:border-blue-300  px-8 sm:px-3 "
           />
         </div>
 
@@ -189,12 +190,12 @@ export default function Home() {
             id="checkOutDate"
             value={searchData.checkOutDate}
             onChange={handleChange}
-            className="p-3 mt-1 bg-white rounded-lg focus:outline-none focus:ring focus:border-blue-300"
+            className="py-3 sm:py-3 mt-1 bg-white rounded-lg focus:outline-none focus:ring focus:border-blue-300  px-8 sm:px-3"
           />
         </div>
 
         <div className="flex flex-col">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center justify-center gap-1">
             <AiOutlineUser className="text-white" />
             <label htmlFor="adults" className="text-white">
               Number of adults:
@@ -211,7 +212,7 @@ export default function Home() {
         </div>
 
         <div className="flex flex-col">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center justify-center gap-1">
             <AiOutlineTeam className="text-white" />
             <label htmlFor="adults" className="text-white">
               Number of children:
@@ -232,6 +233,7 @@ export default function Home() {
         >
           Search
         </button>
+      </div>
       </div>
 
       {/* swiper */}
