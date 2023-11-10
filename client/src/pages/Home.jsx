@@ -144,7 +144,7 @@ export default function Home() {
         </Link>
       </div>
       <div className="w-full flex justify-center">
-      <div className=" w-64 sm:w-full p-4 pb-4  mb-20 flex flex-col sm:flex-row gap-4 items-center justify-center bg-gradient-to-r from-orange-200 to-orange-400  shadow-md">
+      <div className=" w-64 sm:w-full p-4  pb-4 sm:pb-8  mb-20 flex flex-col sm:flex-row gap-4 items-center justify-center sm:justify-between  rounded-3xl sm:rounded-none bg-gradient-to-r from-orange-200 to-orange-400  shadow-md">
         <div className="flex flex-col">
           <div className="flex items-center justify-center gap-1">
             <MdLocationOn className="text-white" />
